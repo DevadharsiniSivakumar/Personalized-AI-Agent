@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal AI OS - Second Brain</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app-container">
+        
+        <!-- ================= AUTH SCREEN ================= -->
+        <div id="auth-screen" class="screen active">
+            <div class="auth-card glass-panel">
+                <div class="auth-logo">
+                    <span class="logo-brain">🧠</span>
+                    <h1>Personal AI OS</h1>
+                    <p class="logo-tagline">Your Local Multi-Agent Second Brain</p>
+                </div>
+                
+                <!-- Login View -->
+                <div id="login-view" class="auth-view active">
+                    <h2>Welcome Back</h2>
+                    <form id="login-form">
+                        <div class="form-group">
+                            <label for="login-username">Username</label>
+                            <input type="text" id="login-username" placeholder="Enter username..." required autocomplete="username">
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Password</label>
+                            <input type="password" id="login-password" placeholder="Enter password..." required autocomplete="current-password">
+                        </div>
+                        <button type="submit" id="btn-login" class="btn-primary">Connect Brain</button>
+                    </form>
+                    <p class="auth-switch">New to Personal OS? <a href="#" id="link-to-register">Create an account</a></p>
+                </div>
+                
+                <!-- Register View -->
+                <div id="register-view" class="auth-view">
+                    <h2>Create Profile</h2>
+                    <form id="register-form">
+                        <div class="form-group">
+                            <label for="register-username">Username</label>
+                            <input type="text" id="register-username" placeholder="Choose a username..." required autocomplete="username">
+                        </div>
+                        <div class="form-group">
+                            <label for="register-password">Password</label>
+                            <input type="password" id="register-password" placeholder="Create password..." required autocomplete="new-password">
+                        </div>
+                        <div class="form-group">
+                            <label for="register-confirm-password">Confirm Password</label>
+                            <input type="password" id="register-confirm-password" placeholder="Confirm password..." required autocomplete="new-password">
+                        </div>
+                        <button type="submit" id="btn-register" class="btn-primary">Create Profile</button>
+                    </form>
+                    <p class="auth-switch">Already have a profile? <a href="#" id="link-to-login">Log In</a></p>
+                </div>
+
+                <!-- Legacy Update View (Password setup for old profiles) -->
+                <div id="legacy-view" class="auth-view">
+                    <h2>Secure Legacy Profile</h2>
+                    <p class="view-intro-text">This profile has no password set. Please create a password to secure it before connecting.</p>
+                    <form id="legacy-form">
+                        <div class="form-group">
+                            <label for="legacy-password">New Password</label>
+                            <input type="password" id="legacy-password" placeholder="Create password..." required autocomplete="new-password">
+                        </div>
+                        <div class="form-group">
+                            <label for="legacy-confirm-password">Confirm Password</label>
+                            <input type="password" id="legacy-confirm-password" placeholder="Confirm password..." required autocomplete="new-password">
+                        </div>
+                        <button type="submit" id="btn-legacy-update" class="btn-primary">Secure & Connect</button>
+                    </form>
+                </div>
+                
+                <div id="auth-status" class="auth-status-message"></div>
+            </div>
+        </div>
+
+        <!-- ================= MAIN DASHBOARD SCREEN ================= -->
+        <div id="dashboard-screen" class="screen">
+            <!-- Sidebar Navigation -->
+            <aside id="sidebar" class="glass-panel">
+                <div class="sidebar-header">
+                    <span class="logo-icon">🧠</span>
+                    <span class="logo-text">Personal AI OS</span>
+                </div>
+                
+                <div class="user-badge">
+                    <div class="user-avatar">👤</div>
+                    <div class="user-details">
+                        <h4 id="user-display-name">user</h4>
+                        <span id="user-display-id" class="id-tag">ID: 0</span>
+                    </div>
+                </div>
+
+                <nav class="sidebar-nav">
+                    <button id="new-chat-btn" class="btn-new-chat">
+                        <span class="new-chat-icon">➕</span>
+                        <span class="new-chat-label">New Chat</span>
+                    </button>
+
+                    <button id="nav-chat-btn" class="nav-item active">
+                        <span class="nav-icon">💬</span>
+                        <span class="nav-label">Chat Console</span>
+                    </button>
+                    
+                    <!-- Recent Sessions List -->
+                    <div id="sessions-section">
+                        <h5 class="sidebar-section-title">Recent Conversations</h5>
+                        <div id="sessions-list-container">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <button id="nav-memories-btn" class="nav-item">
+                        <span class="nav-icon">💾</span>
+                        <span class="nav-label">Memory Manager</span>
+                    </button>
+                </nav>
+
+                <div class="sidebar-actions">
+                    <button id="logout-btn" class="btn-secondary">
+                        <span class="btn-icon">🚪</span>
+                        <span class="btn-text">Logout</span>
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Main Content Area -->
+            <main id="main-content">
+                
+                <!-- Chat Screen View -->
+                <section id="chat-view" class="content-view active">
+                    <header class="view-header glass-panel">
+                        <div class="header-info">
+                            <h2>Chat Console</h2>
+                            <p>Routing queries to specialized agent nodes in your second brain.</p>
+                        </div>
+                        <div class="graph-status-pill">
+                            <span class="status-indicator-green"></span>
+                            <span>LangGraph Online</span>
+                        </div>
+                    </header>
+
+                    <div id="chat-messages-container" class="glass-panel">
+                        <!-- Messages populated dynamically -->
+                        <div class="welcome-message-card">
+                            <div class="card-icon">🤖</div>
+                            <h3>How can I assist you today?</h3>
+                            <p>You can talk to me naturally. The Manager Agent will analyze your request and route it to the appropriate processor:</p>
+                            <div class="routing-explanation-grid">
+                                <div class="explanation-pill pill-knowledge">💾 <strong>Knowledge</strong>: "Remember I enjoy reading about quantum physics" or "What do I like to read?"</div>
+                                <div class="explanation-pill pill-planner">📅 <strong>Planner</strong>: "Plan a trip to Japan for next month" or "Help me draft a study plan"</div>
+                                <div class="explanation-pill pill-decision">⚖️ <strong>Decision</strong>: "Compare React vs Vue for a local project" or "Help me decide on a database"</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form id="chat-input-form" class="glass-panel">
+                        <textarea id="chat-message-input" rows="1" placeholder="Type a request (e.g., 'Remember I like learning Go')..." required></textarea>
+                        <button type="submit" id="chat-send-btn" class="btn-circle-primary" title="Send Request">
+                            <span class="send-arrow">➔</span>
+                        </button>
+                    </form>
+                </section>
+
+                <!-- Memories Screen View -->
+                <section id="memories-view" class="content-view">
+                    <header class="view-header glass-panel">
+                        <div class="header-info">
+                            <h2>Memory Manager</h2>
+                            <p>View, search, add, or delete pieces of your long-term memory store.</p>
+                        </div>
+                        <div class="store-sync-pill">
+                            <span class="status-indicator-blue"></span>
+                            <span>SQLite + FAISS Vector Store</span>
+                        </div>
+                    </header>
+
+                    <div class="memories-split-layout">
+                        <!-- Left Panel: Create Memory & Search -->
+                        <div class="memories-control-panel glass-panel">
+                            <h3>Store New Memory</h3>
+                            <form id="memory-create-form">
+                                <div class="form-group">
+                                    <textarea id="memory-content-input" placeholder="Type a fact or context to remember (e.g., 'I prefer building web apps with vanilla CSS')..." required></textarea>
+                                </div>
+                                <button type="submit" class="btn-primary">Save Memory</button>
+                            </form>
+
+                            <hr class="panel-divider">
+
+                            <h3>Search Memories</h3>
+                            <div class="search-box">
+                                <span class="search-icon">🔍</span>
+                                <input type="text" id="memory-search-input" placeholder="Search memories by keyword...">
+                            </div>
+                        </div>
+
+                        <!-- Right Panel: Memory List Grid -->
+                        <div class="memories-list-panel glass-panel">
+                            <h3>Stored Memories Database</h3>
+                            <div id="memories-grid-container">
+                                <!-- Memory cards populated dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>
