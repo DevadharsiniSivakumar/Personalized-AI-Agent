@@ -66,7 +66,8 @@ Guidelines:
                 "agent_outputs": {
                     "agent": "planner",
                     "plan": response.content,
-                    "personalized_with_context": user_context != "No specific background memories found."
+                    "personalized_with_context": user_context != "No specific background memories found.",
+                    "retrieved_memories": [m.model_dump() for m in memories] if memories else []
                 }
             }
 

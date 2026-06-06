@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Personal AI OS
 
 A local-first, lightweight multi-agent AI system acting as a user's second brain.
@@ -29,3 +30,6 @@ A local-first, lightweight multi-agent AI system acting as a user's second brain
    ```bash
    uv run python -m unittest discover -s tests
    ```
+=======
+# Personalized-AI-Agent
+>>>>>>> 09f6589a12ff4e5be47f3d937e050ebe6cd7aab8

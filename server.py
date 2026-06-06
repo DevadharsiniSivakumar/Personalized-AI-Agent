@@ -238,7 +238,8 @@ def process_chat_message(req: ChatMessageRequest):
             "status": "success",
             "response": response_text,
             "intent": intent,
-            "errors": errors
+            "errors": errors,
+            "agent_outputs": final_state.get("agent_outputs", {})
         }
     except Exception as e:
         logger.error(f"Error in chat processing: {e}", exc_info=True)

@@ -6,7 +6,7 @@
     <title>Personal AI OS - Second Brain</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -86,7 +86,7 @@
             <aside id="sidebar" class="glass-panel">
                 <div class="sidebar-header">
                     <span class="logo-icon">🧠</span>
-                    <span class="logo-text">Personal AI OS</span>
+                    <span class="logo-text">Personal OS</span>
                 </div>
                 
                 <div class="user-badge">
@@ -98,34 +98,50 @@
                 </div>
 
                 <nav class="sidebar-nav">
-                    <button id="new-chat-btn" class="btn-new-chat">
-                        <span class="new-chat-icon">➕</span>
-                        <span class="new-chat-label">New Chat</span>
+                    <button id="nav-home-btn" class="nav-item active">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-label">Home Dashboard</span>
                     </button>
 
-                    <button id="nav-chat-btn" class="nav-item active">
+                    <button id="nav-chat-btn" class="nav-item">
                         <span class="nav-icon">💬</span>
-                        <span class="nav-label">Chat Console</span>
+                        <span class="nav-label">General Chat</span>
                     </button>
                     
-                    <!-- Recent Sessions List -->
-                    <div id="sessions-section">
-                        <h5 class="sidebar-section-title">Recent Conversations</h5>
+                    <!-- Recent Sessions List (Only visible under chat section style) -->
+                    <div id="sessions-section" class="sidebar-nested-section">
+                        <div class="section-header-row">
+                            <span class="sidebar-section-title">Conversations</span>
+                            <button id="new-chat-btn" class="btn-sidebar-add" title="New Chat">+</button>
+                        </div>
                         <div id="sessions-list-container">
                             <!-- Populated dynamically -->
                         </div>
                     </div>
 
+                    <div class="sidebar-divider"></div>
+                    <span class="sidebar-group-title">Specialized Agents</span>
+
                     <button id="nav-memories-btn" class="nav-item">
                         <span class="nav-icon">💾</span>
-                        <span class="nav-label">Memory Manager</span>
+                        <span class="nav-label">Knowledge Agent</span>
+                    </button>
+
+                    <button id="nav-planner-btn" class="nav-item">
+                        <span class="nav-icon">📅</span>
+                        <span class="nav-label">Planner Agent</span>
+                    </button>
+
+                    <button id="nav-decision-btn" class="nav-item">
+                        <span class="nav-icon">⚖️</span>
+                        <span class="nav-label">Decision Agent</span>
                     </button>
                 </nav>
 
                 <div class="sidebar-actions">
-                    <button id="logout-btn" class="btn-secondary">
+                    <button id="logout-btn" class="btn-secondary danger-hover">
                         <span class="btn-icon">🚪</span>
-                        <span class="btn-text">Logout</span>
+                        <span class="btn-text">Logout Profile</span>
                     </button>
                 </div>
             </aside>
@@ -133,31 +149,111 @@
             <!-- Main Content Area -->
             <main id="main-content">
                 
-                <!-- Chat Screen View -->
-                <section id="chat-view" class="content-view active">
+                <!-- ================= HOME VIEW ================= -->
+                <section id="home-view" class="content-view active">
                     <header class="view-header glass-panel">
                         <div class="header-info">
-                            <h2>Chat Console</h2>
+                            <h2 id="home-greeting">Good morning, user</h2>
+                            <p>Here is the status of your second brain today.</p>
+                        </div>
+                        <div class="system-status-pill">
+                            <span class="status-indicator-green"></span>
+                            <span>Local Engine Ready</span>
+                        </div>
+                    </header>
+
+                    <!-- Metrics Cards Grid -->
+                    <div class="metrics-grid">
+                        <div class="metric-card glass-panel" onclick="document.getElementById('nav-memories-btn').click()">
+                            <div class="metric-icon bg-knowledge">💾</div>
+                            <div class="metric-info">
+                                <h3 id="stat-memories-count">0</h3>
+                                <p>Saved Memories</p>
+                            </div>
+                        </div>
+                        <div class="metric-card glass-panel" onclick="document.getElementById('nav-planner-btn').click()">
+                            <div class="metric-icon bg-planner">📅</div>
+                            <div class="metric-info">
+                                <h3 id="stat-active-roadmaps">0</h3>
+                                <p>Active Roadmaps</p>
+                            </div>
+                        </div>
+                        <div class="metric-card glass-panel" onclick="document.getElementById('nav-decision-btn').click()">
+                            <div class="metric-icon bg-decision">⚖️</div>
+                            <div class="metric-info">
+                                <h3 id="stat-decisions-count">0</h3>
+                                <p>Decisions Analyzed</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Home Split Layout -->
+                    <div class="home-split-layout">
+                        <!-- Left Panel: Stored Roadmaps Checklist -->
+                        <div class="home-panel glass-panel">
+                            <div class="panel-header-row">
+                                <h3>📋 Active Roadmap Tasks</h3>
+                                <span class="badge badge-planner" id="active-roadmap-title">No Active Plan</span>
+                            </div>
+                            <div id="home-active-tasks-list" class="checklist-container">
+                                <div class="empty-state">
+                                    <span>📅</span>
+                                    <p>No active roadmap checklist. Head to the **Planner Agent** to create and activate a roadmap!</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Panel: Recent Memories -->
+                        <div class="home-panel glass-panel">
+                            <h3>recent-memories Recent Memories</h3>
+                            <div id="home-recent-memories-list" class="recent-list-container">
+                                <!-- Dynamic recent memories -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- System Context Information Drawer -->
+                    <footer class="system-details-panel glass-panel">
+                        <div class="sys-item">
+                            <span class="sys-label">Database Path:</span>
+                            <span class="sys-value">SQLite (personal_ai.db)</span>
+                        </div>
+                        <div class="sys-item">
+                            <span class="sys-label">FAISS Store:</span>
+                            <span class="sys-value" id="sys-index-size">Active Vector Index</span>
+                        </div>
+                        <div class="sys-item">
+                            <span class="sys-label">Privacy Guard:</span>
+                            <span class="sys-value color-success">100% Local Sandbox</span>
+                        </div>
+                    </footer>
+                </section>
+
+                <!-- ================= CHAT VIEW ================= -->
+                <section id="chat-view" class="content-view">
+                    <header class="view-header glass-panel">
+                        <div class="header-info">
+                            <h2>General Chat Console</h2>
                             <p>Routing queries to specialized agent nodes in your second brain.</p>
                         </div>
                         <div class="graph-status-pill">
                             <span class="status-indicator-green"></span>
-                            <span>LangGraph Online</span>
+                            <span>LangGraph Orchestrator</span>
                         </div>
                     </header>
 
+                    <!-- Telemetry Drawer -->
+                    <div id="chat-telemetry-container" class="telemetry-bar glass-panel" style="display: none;">
+                        <span class="telemetry-icon">🧠</span>
+                        <div class="telemetry-content">
+                            <strong id="telemetry-routing-title">Manager Route: Knowledge Agent</strong>
+                            <p id="telemetry-routing-desc">Analyzing context memory matches...</p>
+                        </div>
+                        <button class="btn-telemetry-close" onclick="this.parentNode.style.display='none'">✕</button>
+                    </div>
+
                     <div id="chat-messages-container" class="glass-panel">
                         <!-- Messages populated dynamically -->
-                        <div class="welcome-message-card">
-                            <div class="card-icon">🤖</div>
-                            <h3>How can I assist you today?</h3>
-                            <p>You can talk to me naturally. The Manager Agent will analyze your request and route it to the appropriate processor:</p>
-                            <div class="routing-explanation-grid">
-                                <div class="explanation-pill pill-knowledge">💾 <strong>Knowledge</strong>: "Remember I enjoy reading about quantum physics" or "What do I like to read?"</div>
-                                <div class="explanation-pill pill-planner">📅 <strong>Planner</strong>: "Plan a trip to Japan for next month" or "Help me draft a study plan"</div>
-                                <div class="explanation-pill pill-decision">⚖️ <strong>Decision</strong>: "Compare React vs Vue for a local project" or "Help me decide on a database"</div>
-                            </div>
-                        </div>
                     </div>
 
                     <form id="chat-input-form" class="glass-panel">
@@ -168,11 +264,11 @@
                     </form>
                 </section>
 
-                <!-- Memories Screen View -->
+                <!-- ================= KNOWLEDGE VIEW ================= -->
                 <section id="memories-view" class="content-view">
                     <header class="view-header glass-panel">
                         <div class="header-info">
-                            <h2>Memory Manager</h2>
+                            <h2>Knowledge Agent Workspace</h2>
                             <p>View, search, add, or delete pieces of your long-term memory store.</p>
                         </div>
                         <div class="store-sync-pill">
@@ -189,7 +285,7 @@
                                 <div class="form-group">
                                     <textarea id="memory-content-input" placeholder="Type a fact or context to remember (e.g., 'I prefer building web apps with vanilla CSS')..." required></textarea>
                                 </div>
-                                <button type="submit" class="btn-primary">Save Memory</button>
+                                <button type="submit" class="btn-primary bg-knowledge-gradient">Save Memory</button>
                             </form>
 
                             <hr class="panel-divider">
@@ -210,6 +306,98 @@
                         </div>
                     </div>
                 </section>
+
+                <!-- ================= PLANNER VIEW ================= -->
+                <section id="planner-view" class="content-view">
+                    <header class="view-header glass-panel">
+                        <div class="header-info">
+                            <h2>Planner Agent Workspace</h2>
+                            <p>Generate, refine, and activate learning paths and milestone checklists.</p>
+                        </div>
+                        <div class="store-sync-pill color-planner-border">
+                            <span class="status-indicator-blue" style="background-color: var(--color-planner); box-shadow: 0 0 8px var(--color-planner);"></span>
+                            <span>Roadmap Creator</span>
+                        </div>
+                    </header>
+
+                    <!-- Planner Split Layout -->
+                    <div class="planner-split-layout">
+                        <!-- Left Panel: Action Input Deck -->
+                        <div class="planner-control-panel glass-panel">
+                            <h3>Generate New Roadmap</h3>
+                            <p class="panel-desc">Describe your goals, and the Planner Agent will customize milestones based on your background memories.</p>
+                            <form id="planner-create-form">
+                                <div class="form-group">
+                                    <textarea id="planner-goal-input" placeholder="What is your goal? (e.g., 'Draft a 2-week plan to learn Rust for web services')..." required></textarea>
+                                </div>
+                                <button type="submit" class="btn-primary bg-planner-gradient" id="btn-generate-plan">Generate Roadmap</button>
+                            </form>
+                        </div>
+
+                        <!-- Right Panel: Interactive Roadmap Result -->
+                        <div class="planner-result-panel glass-panel">
+                            <div class="result-header-row">
+                                <h3>📅 Roadmap Blueprint</h3>
+                                <button id="btn-activate-roadmap" class="btn-action-success" style="display: none;">Activate Roadmap</button>
+                            </div>
+                            <!-- Telemetry Context Indicator -->
+                            <div id="planner-telemetry-box" class="workspace-telemetry-badge" style="display: none;">
+                                <span>🧠 Injected Memory Context applied to customize this plan.</span>
+                            </div>
+                            <div id="planner-roadmap-output" class="roadmap-viewer">
+                                <div class="empty-state">
+                                    <span>📅</span>
+                                    <p>Input a goal in the left panel to generate your step-by-step milestone plan.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= DECISION VIEW ================= -->
+                <section id="decision-view" class="content-view">
+                    <header class="view-header glass-panel">
+                        <div class="header-info">
+                            <h2>Decision Studio</h2>
+                            <p>Compare alternatives, analyze pros/cons, and get structured recommendations.</p>
+                        </div>
+                        <div class="store-sync-pill color-decision-border">
+                            <span class="status-indicator-blue" style="background-color: var(--color-decision); box-shadow: 0 0 8px var(--color-decision);"></span>
+                            <span>Comparison Engine</span>
+                        </div>
+                    </header>
+
+                    <!-- Decision Split Layout -->
+                    <div class="decision-split-layout">
+                        <!-- Left Panel: Form Input -->
+                        <div class="decision-control-panel glass-panel">
+                            <h3>Analyze Trade-offs</h3>
+                            <p class="panel-desc">Enter your options or comparison topic. The Decision Agent will search memories to weigh context-aware preferences.</p>
+                            <form id="decision-create-form">
+                                <div class="form-group">
+                                    <textarea id="decision-query-input" placeholder="What choice are you comparing? (e.g., 'React vs Svelte for building a local private dashboard app')..." required></textarea>
+                                </div>
+                                <button type="submit" class="btn-primary bg-decision-gradient" id="btn-analyze-decision">Compare Options</button>
+                            </form>
+                        </div>
+
+                        <!-- Right Panel: Table and Recommendation Output -->
+                        <div class="decision-result-panel glass-panel">
+                            <h3>⚖️ Decision Matrix & Analysis</h3>
+                            <!-- Telemetry Context Indicator -->
+                            <div id="decision-telemetry-box" class="workspace-telemetry-badge" style="display: none;">
+                                <span>🧠 User context injected to analyze recommendation.</span>
+                            </div>
+                            <div id="decision-report-output" class="decision-viewer">
+                                <div class="empty-state">
+                                    <span>⚖️</span>
+                                    <p>Submit a decision query in the left panel to output a comprehensive pros/cons comparison report.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
             </main>
         </div>
 
